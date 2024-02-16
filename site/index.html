@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Новости Салымбекова</title>
+  </head>
+  <body>
+		<div class="result">
+			
+		</div>
+
+		<script>
+			const $news = document.querySelector('.result')
+			const $more__button = document.querySelector('.more__button')
+
+			fetch('http://127.0.0.1:8000/api/news/')
+				.then(res => res.json())
+				.then(data => {
+					const card_template = data.map(item => {
+						const itemJSON = JSON.stringify(item);
+						return `
+							<div class="card">
+								<div class="card__image">
+									<img
+										src="http://127.0.0.1:8000${item.image}"
+										alt="${item.title}"
+									/>
+								</div>
+								<div class="card__info">
+									<h2>${item.title}</h2>
+									<p>${item.description}</p>
+									<a href="./more.html">
+										<button class="more__button" onclick="addToLocalStorage('${encodeURIComponent(itemJSON)}')">Подробнее</button>
+									</a>
+								</div>
+							</div>
+						`;
+					}).join('');
+
+					$news.innerHTML = card_template;
+				});
+
+			function addToLocalStorage(itemJSON) {
+				const decodedItemJSON = decodeURIComponent(itemJSON);
+				localStorage.setItem('more', decodedItemJSON);
+			}
+
+
+
+		</script>
+
+		<style>
+			@import url(https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap);
+
+			*{
+				font-family: 'Rubik';
+			}
+
+			body{
+				margin: 0;
+				width: 100%;
+				display: flex;
+				justify-content: center;
+			}
+
+			.result{
+				width: 95%;
+				padding: 50px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-wrap: wrap;
+				gap: 20px;
+			}
+
+			.result .card{
+				width: 350px;
+				height: 450px;
+				background: #0000C4;
+			}
+
+			.result .card .card__image img{
+				width: 350px;
+				height: 300px;
+				object-fit: cover;
+				object-position: center;
+			}
+
+			.result .card .card__info{
+				padding: 15px;
+			}
+
+			.result .card .card__info h2{
+				color: white;
+				margin: 0;
+			}
+
+			.result .card .card__info p{
+				color: white;
+			}
+
+			.result .card .card__info button{
+				width: 100%;
+				height: 30px;
+				border-radius: 6px;
+				border: 0;
+				background: #6b6bff;
+				color: white;
+
+				cursor: pointer;
+			}
+		</style>
+  </body>
+</html>

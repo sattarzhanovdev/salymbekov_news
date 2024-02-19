@@ -6,6 +6,35 @@
     <title>Новости Салымбекова</title>
   </head>
   <body>
+
+		<header>
+			<div class="nav">
+				<h1>SU News</h1>
+				<ul class="list">
+					<li>
+						<a href="">
+							Home
+						</a>
+					</li>
+					<li>
+						<a href="">
+							Gallery
+						</a>
+					</li>
+					<li>
+						<a href="">
+							About us
+						</a>
+					</li>
+					<li>
+						<a href="">
+							Contacts
+						</a>
+					</li>
+				</ul>
+			</div>
+		</header>
+
 		<div class="result">
 			
 		</div>
@@ -17,7 +46,8 @@
 			fetch('http://127.0.0.1:8000/api/news/')
 				.then(res => res.json())
 				.then(data => {
-					const card_template = data.map(item => {
+					const newData = data.reverse()
+					const card_template = newData.map(item => {
 						const itemJSON = JSON.stringify(item);
 						return `
 							<div class="card">
@@ -60,18 +90,53 @@
 			body{
 				margin: 0;
 				width: 100%;
+			}
+
+			header{
 				display: flex;
 				justify-content: center;
 			}
 
-			.result{
-				width: 95%;
-				padding: 50px;
+			.nav{
+				width: 100%;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				background: #0000c44d;
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 100;
+			}
+
+			.nav h1{
+				color: #0000C4;
+				margin: 15px 50px;
+			}
+
+			.nav .list{
 				display: flex;
 				align-items: center;
-				justify-content: center;
+				gap: 25px;
+				margin: 15px 50px;
+			}
+
+			.nav .list li{
+				list-style: none;
+			}
+
+			.nav .list li a{
+				text-decoration: none;
+				color: white;
+			}
+
+			.result{
+				width: 95%;
+				display: flex;
+				align-items: center;
 				flex-wrap: wrap;
 				gap: 20px;
+				margin: 100px 50px;
 			}
 
 			.result .card{

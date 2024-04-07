@@ -25,6 +25,7 @@ urlpatterns = [
     path('api/admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('more.html', views.more),
+    path('category.html', views.category),
     path('api/news/', views.news_list),
 ]
 

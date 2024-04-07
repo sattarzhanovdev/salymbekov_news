@@ -9,6 +9,9 @@ def index(request):
 def more(request):
   return render(request, 'more.html')
 
+def category(request):
+  return render(request, 'category.html')
+
 from django.http import JsonResponse
 from news.models import News
 
@@ -22,6 +25,7 @@ def news_list(request):
       news_dict = {
           'title': news.title,
           'description': news.description,
+          'category': news.category,
           # Add more fields as needed
       }
       if news.image:

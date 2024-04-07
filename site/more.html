@@ -24,12 +24,16 @@
             src="${item.image}"
             alt="${item.title}"
           />
+          
         <div>
 
         <div class="right">
           <h1>
             ${item.title}  
           </h1>  
+          <p class="category">
+            ${item.category}  
+          </p>
           <p>
             ${item.description}  
           </p>
@@ -52,15 +56,17 @@
       }
       
       .more{
+        width: 80%;
         display: flex;
         align-items: center;
+        flex-direction: column;
         padding: 50px;
-        margin-right: 30%;
       }
 
       .more .left {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
+        flex-direction: column;
         gap: 50px;
       }
 
@@ -72,11 +78,19 @@
 
       .more .right h1{
         margin: 0;
+        margin-bottom: 20px;
+      }
+
+      .more .right .category{
+        color: gray;
+        margin: 0;
+        margin-bottom: 40px;
+        font-size: 20px;
       }
 
       .more .left img{
-        width: 400px;
-        height: 500px;
+        width: 1400px;
+        height: 300px;
         object-fit: cover;
         object-position: center;
         border: 1px solid gray;

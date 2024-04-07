@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Категория</title>
+  </head>
+  <body>
+    <header>
+			<div class="nav">
+				<div class="logo">
+					<img src="https://salymbekov.com/wp-content/uploads/2023/02/logo-salymbekov-university-site.png" alt="">
+				</div>
+				<ul class="lang">
+					<li>
+						Кыр
+					</li>
+					<li>
+						Eng
+					</li>
+					<li>
+						Ru
+					</li>
+				</ul>
+				<div class="search">
+					<input type="text" placeholder="Поиск">
+					<img src="https://cdn3.iconfinder.com/data/icons/feather-5/24/search-512.png" alt="">
+				</div>
+				<div class="currency">
+					<li>
+						<span>USD</span> 89.51
+					</li>
+					<li>
+						<span>EUR</span> 97.41
+					</li>
+					<li>
+						<span>RUB</span> 0.98
+					</li>
+				</div>
+			</div>
+			<div class="subNav">
+			</div>
+		</header>
+
+    <main>
+      <div class="news">
+
+      </div>
+    </main>
+
+    <script>
+
+      const category = localStorage.getItem('category')
+      const $news = document.querySelector('.news')
+
+      const arr = []
+
+      fetch('http://127.0.0.1:8000/api/news/')
+        .then(res => res.json())
+        .then(res => {
+          const filtered = res.filter(item => item.category == category)
+          arr.push(filtered)
+
+          const card_template = filtered.map((item, i) => {
+						return `
+							<div class="card" onclick="addToLocalStorage(${i})">
+								<img src="http://127.0.0.1:8000${item.image}"/>
+								<div class="left">
+									<p>${item.title}</p>
+									<p class="category">${item.category}</p>
+								</div>
+							</div>	
+						`;
+					}).join('');
+
+          $news.innerHTML = card_template
+
+        })
+
+        function addToLocalStorage(itemJSON) {
+          const item = JSON.stringify(arr[0][itemJSON])
+          localStorage.setItem('more', item);
+          window.open('more.html', '_self')
+        }
+
+        const nav_list = [
+				{
+					id:1,
+					title: 'Все',
+					page: '/'
+				},
+				{
+					id:2,
+					title: 'Спорт',
+					page: 'category.html'
+				},
+				{
+					id: 3,
+					title: 'Политика',
+					page: 'category.html'
+				},
+				{
+					id: 4,
+					title: 'Погода',
+					page: 'category.html'
+				}
+			]
+        const $subnav = document.querySelector('.subNav')
+
+        const nav_template = nav_list.map((item, i) => {
+          return `
+            <li onclick={toCategoryPage(${i})}>
+              <a href="${item.page}">
+                ${item.title}
+              </a>
+            </li>
+          `
+        }).join('')
+
+        $subnav.innerHTML = nav_template
+
+        function toCategoryPage(i) {
+          localStorage.setItem('category', nav_list[i].title)
+        }
+    </script>
+
+    <style>
+      @import url(https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap);
+
+      *{
+        font-family: 'Rubik';
+      }
+
+      body{
+        margin: 0;
+        width: 100%;
+      }
+
+      header{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .nav{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 25px 0;
+      }
+
+      .nav .lang{
+        display: flex;
+        align-items: center;
+        list-style: none;
+        gap: 20px;
+      }
+
+      .nav .search{
+        display: flex;
+        align-items: center;
+        position: relative;
+      }
+
+      .nav .search input{
+        width: 300px;
+        height: 30px;
+        padding: 0 40px;
+        outline: none;
+      }
+
+      .nav .search img{
+        width: 16px;
+        position: absolute;
+        left: 15px;
+      }
+
+      .nav .currency{
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav .currency li{
+        list-style: none;
+        font-size: 14px;
+      }
+
+      .nav .currency li span{
+        font-weight: 600;
+        color: blue;
+      }
+
+      .subNav{
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 40px;
+        list-style: none;
+        background: blue;
+        gap: 25px;
+      }
+
+      .subNav li:nth-child(1){
+        margin-left: 100px;
+      }
+
+      .subNav li{
+				color: white;
+				cursor: pointer;
+			}
+
+			.subNav li a{
+				text-decoration: none;
+				color: white;
+			}
+
+      .news{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 25px;
+        margin-top: 40px;
+      }
+
+      .news .card{
+				width: 250px;
+				height: 200px;
+        cursor: pointer;
+			}
+
+			.news .card img{
+				width: 250px;
+				height: 170px;
+				object-fit: cover;
+			}
+
+			.news .card .left p{
+				margin: 0;
+				font-size: 16px;
+				margin-top: 10px;
+			}
+
+      .news .card .left .category{
+        color: grey;
+			}
+    </style>
+  </body>
+</html>
